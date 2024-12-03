@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+
+type Props = {
+  entry: CollectionEntry<"journal">;
+};
+
+const { entry } = Astro.props as {
+  entry: CollectionEntry<"journal">;
+};
+---
+
+<a
+  href={`/${entry.collection}/${entry.slug}`}
+  class="not-prose group relative flex items-stretch overflow-hidden rounded-lg border border-black/15 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+>
+  <div class="flex flex-1 flex-col justify-between p-4 pr-0">
+    <div class="flex-grow">
+      <h3 class="mb-2 font-semibold">{entry.data.title}</h3>
+      <p class="line-clamp-2 text-sm">{entry.data.description}</p>
+    </div>
+    <div class="mt-4 flex items-center gap-2 text-sm">
+      <span class="flex items-center gap-1">
+        <Icon class="text-white/40" name="ion:calendar-clear" />
+        {new Date(entry.data.date).toLocaleDateString()}
+      </span>
+      <span class="flex items-center gap-1">
+        <Icon class="text-white/40" name="ion:bookmark" />
+        {entry.data.tags}
+      </span>
+    </div>
+  </div>
+
+  {
+    entry.data.image && (
+      <div class="w-48 flex-shrink-0">
+        <img
+          src={entry.data.image}
+          alt={entry.data.title}
+          class="h-full w-full object-cover"
+        />
+      </div>
+    )
+  }
+</a>

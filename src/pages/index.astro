@@ -1,0 +1,66 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { SITE, HOME } from "@consts";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+import { getCollection } from "astro:content";
+const journal = (await getCollection("journal"))
+  .filter((post: any) => !post.data.draft)
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+const posts = await getCollection("journal", ({ data }: any) => !data.draft);
+const tags = [
+  ...new Set(posts.flatMap((post: any) => post.data.tags || [])),
+].sort();
+---
+
+<Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <Container>
+    <aside>
+      <div class="space-y-16">
+        <section class="animate space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-y-2">
+            <h2 class="font-semibold text-black dark:text-white">
+              Latest posts
+            </h2>
+            <Link href="/journal"> See all posts </Link>
+          </div>
+          <ul class="not-prose flex flex-col gap-4">
+            {
+              journal.map((post: any) => (
+                <li>
+                  <ArrowCard entry={post} />
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </aside>
+  </Container>
+
+  <div class="absolute -right-28 top-1/4 hidden sm:block">
+    <h1 class="animate font-semibold">All Tags</h1>
+    <div class="animate mt-3 flex w-1/2 flex-wrap gap-2">
+      {
+        tags.map((tag) => (
+          <a
+            href={`/tags/${tag}`}
+            class="rounded border border-black/15 px-2 py-1 text-sm transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+          >
+            {tag}{" "}
+            <span class="text-sm text-gray-600">
+              (
+              {
+                posts.filter((post: any) => post.data.tags?.includes(tag))
+                  .length
+              }
+              )
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
