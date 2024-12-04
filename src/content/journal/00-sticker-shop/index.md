@@ -2,7 +2,7 @@
 title: "The Sticker Shop"
 description: "Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability "
 date: "2024-12-04"
-image: "/public/sticker.png"
+image: "/public/images/00/sticker.pmg"
 tags:
   - XSS
 ---
@@ -45,17 +45,17 @@ The scan revealed two open ports:
 
 Upon visiting `http://10.10.181.208:8080`, the homepage displayed two stickers and their respective prices.
 
-![Homepage](/public/home.png)
+![Homepage](/public/images/00/home.png)
 
 Efforts to access the **flag** at `/flag.txt` returned a **401 Unauthorized** status, indicating that the flag was secured and could not be accessed directly.
 
-![Unauthorized](/public/unauth.png)
+![Unauthorized](/public/images/00/sticker.png)
 
 ---
 
 ## Feedback Form and XSS Testing
 
-![feedback](/public/feedback.png)
+![feedback](/public/images/00/feedback.png)
 
 The application features a feedback form that allows users to submit comments. To test for **Cross-Site Scripting (XSS)** vulnerabilities, a simple payload was injected:
 
@@ -78,7 +78,7 @@ This confirmed that the site was vulnerable to XSS, as the payload was executed 
 
 ## Exploiting XSS to Steal Flag
 
-![xss](/public/query.png)
+![xss](/public/images/00/query.png)
 
 The input field was vulnerable to XSS, allowing the injection of a JavaScript payload to fetch the contents of the `/flag.txt` file. Since only GET requests were allowed, the flag could not be directly posted but could be fetched and sent via a redirect.
 
