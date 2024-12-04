@@ -2,7 +2,7 @@ import type { Metadata, Site, Socials } from "@types";
 
 export const SITE: Site = {
   TITLE: "Thoughtbin",
-  DESCRIPTION: "Thoughtbin is journal.",
+  DESCRIPTION: "Thoughtbin is a journal.",
   EMAIL: "",
   NUM_POSTS_ON_HOMEPAGE: 5,
 };
