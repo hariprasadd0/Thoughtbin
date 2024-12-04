@@ -2,7 +2,7 @@
 title: "The Sticker Shop"
 description: "Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability "
 date: "2024-12-04"
-image: "/images/00/sticker.pmg"
+image: "/images/00/sticker.png"
 tags:
   - XSS
 ---
@@ -49,7 +49,7 @@ Upon visiting `http://10.10.181.208:8080`, the homepage displayed two stickers a
 
 Efforts to access the **flag** at `/flag.txt` returned a **401 Unauthorized** status, indicating that the flag was secured and could not be accessed directly.
 
-![Unauthorized](/images/00/sticker.png)
+![Unauthorized](/images/00/unauth.png)
 
 ---
 
