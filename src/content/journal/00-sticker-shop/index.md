@@ -2,7 +2,7 @@
 title: "The Sticker Shop"
 description: "Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability "
 date: "2024-12-04"
-image: "https://tryhackme-images.s3.amazonaws.com/room-icons/b688ceda454abef6677fcf6d15b6f948.jpeg"
+image: "/public/sticker.png"
 tags:
   - XSS
 ---
