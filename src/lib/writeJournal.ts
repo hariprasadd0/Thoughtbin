@@ -2,6 +2,10 @@ import { getCollection } from "astro:content";
 import { SITE } from "@consts";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
+
+const SITE_URL = process.env.BASE_URL || "http://localhost:3000";
 
 export const getAllJournal = async () => {
   const journal = (await getCollection("journal"))
@@ -18,6 +22,7 @@ export const writeJournalToFile = async () => {
       title: post.data.title,
       description: post.data.description,
       date: post.data.date.toISOString().split("T")[0],
+      url: `${SITE_URL}journal/${post.slug}`,
     }));
 
     const jsonData = JSON.stringify(journalData, null, 2);
