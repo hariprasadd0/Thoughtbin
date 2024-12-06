@@ -1,7 +1,8 @@
 [
   {
-    "title": "The Sticker Shop CTF",
+    "title": "The Sticker Shop",
     "description": "Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability ",
-    "date": "2024-12-04"
+    "date": "2024-12-04",
+    "url": "https://thoughtbin.pages.dev/journal/00-sticker-shop"
   }
 ]
