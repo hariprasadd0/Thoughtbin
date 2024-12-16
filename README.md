@@ -11,15 +11,5 @@ Thoughtbin helps me stay organized and reflect on my learning journey.
 
 ---
 
-## Installation
 
-To get started with **Thoughtbin** locally, clone this repository and install the dependencies:
-
-```bash
-git clone https://github.com/hariprasadd0/Thoughtbin.git
-cd Thoughtbin
-npm install
-npm run dev
-```
-
-**Thoughtbin** is built on **Astro Micro**.
+**Thoughtbin** is built using **Astro Micro**.
