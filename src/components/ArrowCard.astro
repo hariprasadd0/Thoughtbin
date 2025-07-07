@@ -27,7 +27,13 @@ const { entry } = Astro.props as {
       </span>
       <span class="flex items-center gap-1">
         <Icon class="text-white/40" name="ion:bookmark" />
-        {entry.data.tags}
+        {
+          entry.data.tags?.map((tag) => (
+            <span class="rounded-full bg-black/10 px-2 py-1 text-xs font-medium text-black dark:bg-white/10 dark:text-white">
+              {tag}
+            </span>
+          ))
+        }
       </span>
     </div>
   </div>

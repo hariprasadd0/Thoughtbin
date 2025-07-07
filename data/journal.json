@@ -4,5 +4,11 @@
     "description": "Sticker shop web app with identified Cross-Site Scripting (XSS) vulnerability ",
     "date": "2024-12-04",
     "url": "https://thoughtbin.pages.dev/journal/00-sticker-shop"
+  },
+  {
+    "title": "Cognitive Guide for Developers",
+    "description": "A practical mental model for navigating motivation, burnout,and self-identity challenges",
+    "date": "2025-07-07",
+    "url": "https://thoughtbin.pages.dev/journal/01-cognitive-guide"
   }
 ]
